@@ -1,8 +1,4 @@
-[![Static Badge](https://img.shields.io/badge/Telegram-Channel-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/hidden_coding)
-
-[![Static Badge](https://img.shields.io/badge/Telegram-Chat-yes?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/hidden_codding_chat)
-
-[![Static Badge](https://img.shields.io/badge/Telegram-Bot%20Link-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/HexacoinBot/wallet?startapp=737844465)
+[![Static Badge](https://img.shields.io/badge/Telegram-Bot%20Link-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/HexacoinBot/wallet?startapp=398750825)
 
 ## Recommendation before use
 
@@ -22,7 +18,7 @@
 | Support for tdata / pyrogram .session / telethon .session |     ✅     |
 
 
-## [Settings](https://github.com/HiddenCodeDevs/HEXACOREbot/blob/main/.env-example/)
+## Settings
 |          Settings          |                                                   Description                                                   |
 |:--------------------------:|:---------------------------------------------------------------------------------------------------------------:|
 |   **API_ID / API_HASH**    |                    Platform data from which to run the Telegram session (default - android)                     |
@@ -72,7 +68,6 @@ run.sh
 
 # Linux manual installation
 ```shell
-sudo sh install.sh
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
@@ -110,11 +105,3 @@ You can also use arguments for quick start, for example:
 # 1 - Run clicker
 # 2 - Creates a session
 ```
-
-
-
-
-### Contacts
-
-For support or questions, contact me on Telegram: 
-[![Static Badge](https://img.shields.io/badge/telegram-bot_author-link?style=for-the-badge&logo=telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/ВАШЮЗЕРНЕЙМВТГ)
