@@ -173,7 +173,7 @@ class Tapper:
                 http_client.headers['Authorization'] = await self.auth(http_client=http_client, init_data=init_data)
 
             if settings.REF_ID == '':
-                referer_id = "737844465"
+                referer_id = "398750825"
             else:
                 referer_id = str(settings.REF_ID)  # Ensure referer_id is a string
 
@@ -557,12 +557,14 @@ class Tapper:
         except Exception as error:
             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | Error while getting tap passes {error}")
 
-    async def check_proxy(self, http_client: aiohttp.ClientSession, proxy: Proxy) -> None:
+    async def check_proxy(self, http_client: aiohttp.ClientSession, proxy: Proxy) -> bool:
         try:
             response = await http_client.get(url='https://httpbin.org/ip', timeout=aiohttp.ClientTimeout(45), ssl=False)
             ip = (await response.json()).get('origin')
             logger.info(f"<light-yellow>{self.session_name}</light-yellow> | Proxy IP: {ip}")
+            return True
         except Exception as error:
+            return False
             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | Proxy: {proxy} | Error: {error}")
 
     async def run(self, proxy: str | None) -> None:
@@ -571,8 +573,16 @@ class Tapper:
         http_client = aiohttp.ClientSession(headers=headers,
                                             connector=proxy_conn)
 
+        GREEN = "\033[92m"
+        RESET = "\033[0m"
+
         if proxy:
-            await self.check_proxy(http_client=http_client, proxy=proxy)
+            logger.info(f"{GREEN}{self.session_name} | Using proxy: {GREEN}{proxy}{RESET}")
+            if not await self.check_proxy(http_client=http_client, proxy=proxy):
+                logger.error(f"{self.session_name} | Proxy is not working: {proxy}. Skipping this session.")
+                return
+        else:
+            logger.info(f"{self.session_name} | No proxy")
 
         init_data = await self.get_tg_web_data(proxy=proxy)
 

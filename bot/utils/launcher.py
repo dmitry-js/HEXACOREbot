@@ -17,11 +17,11 @@ start_text = """
 
 ██╗  ██╗███████╗██╗  ██╗ █████╗  ██████╗ ██████╗ ██████╗ ███████╗██████╗  ██████╗ ████████╗
 ██║  ██║██╔════╝╚██╗██╔╝██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝
-███████║█████╗   ╚███╔╝ ███████║██║     ██║   ██║██████╔╝█████╗  ██████╔╝██║   ██║   ██║   
-██╔══██║██╔══╝   ██╔██╗ ██╔══██║██║     ██║   ██║██╔══██╗██╔══╝  ██╔══██╗██║   ██║   ██║   
-██║  ██║███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗██████╔╝╚██████╔╝   ██║   
-╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝  ╚═════╝    ╚═╝   
-                                                                                           
+███████║█████╗   ╚███╔╝ ███████║██║     ██║   ██║██████╔╝█████╗  ██████╔╝██║   ██║   ██║
+██╔══██║██╔══╝   ██╔██╗ ██╔══██║██║     ██║   ██║██╔══██╗██╔══╝  ██╔══██╗██║   ██║   ██║
+██║  ██║███████╗██╔╝ ██╗██║  ██║╚██████╗╚██████╔╝██║  ██║███████╗██████╔╝╚██████╔╝   ██║
+╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝  ╚═════╝    ╚═╝
+
 
 Select an action:
 
@@ -41,13 +41,20 @@ def get_session_names() -> list[str]:
     return session_names
 
 
-def get_proxies() -> list[Proxy]:
+def get_proxies() -> dict[str, Proxy]:
+    proxies = {}
     if settings.USE_PROXY_FROM_FILE:
         with open(file="bot/config/proxies.txt", encoding="utf-8-sig") as file:
-            proxies = [Proxy.from_str(proxy=row.strip()).as_url for row in file]
-    else:
-        proxies = []
-
+            session_name = None
+            for row in file:
+                row = row.strip()
+                if row:
+                    if session_name is None:
+                        session_name = row
+                    else:
+                        proxy = Proxy.from_str(proxy=row).as_url
+                        proxies[session_name] = proxy
+                        session_name = None
     return proxies
 
 
@@ -122,7 +129,6 @@ async def run_tasks(tg_clients: list[Client]):
                     start_sleep=time
                 )
             )
-
         ]
         time = time + 60 + random.randint(0, 60)
 
